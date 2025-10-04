@@ -5,18 +5,12 @@ using static UnityEditor.PlayerSettings;
 
 public class Player1 : MonoBehaviour
 {
-    public float moveSpeed = 2f;
+    public float moveSpeed = 15f;
     public Transform limitMaxY;
     public Transform limitMinY;
 
     public Rigidbody2D rb;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         Move();
@@ -24,18 +18,26 @@ public class Player1 : MonoBehaviour
 
     void Move()
     {
+        float move = 0f;
+
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(Vector2.up * moveSpeed * Time.deltaTime);
+            //Mover hacia arriba en Y
+            move = moveSpeed * Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(Vector2.down * moveSpeed * Time.deltaTime);
+            //Mover hacia abajo en Y
+            move = -moveSpeed * Time.deltaTime;
         }
 
-        Vector3 pos = transform.position;
+        Vector3 positionPlayer = transform.position + new Vector3(0, move, 0);
+
+        //Utilizar todo el espacio del jugador
         float raquetHeight = transform.localScale.y / 2f;
-        pos.y = Mathf.Clamp(pos.y, limitMinY.position.y + raquetHeight, limitMaxY.position.y - raquetHeight);
-        transform.position = pos;
+        //Limitar la posicion
+        positionPlayer.y = Mathf.Clamp(positionPlayer.y, limitMinY.position.y + raquetHeight, limitMaxY.position.y - raquetHeight);
+
+        rb.MovePosition(positionPlayer);
     }
 }

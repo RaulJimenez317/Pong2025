@@ -288,6 +288,10 @@ PrefabInstance:
       propertyPath: limitMinY
       value: 
       objectReference: {fileID: 193196931}
+    - target: {fileID: 8329628644548007609, guid: 91810fc2c3e9a8b4f86fd40aa6cdad5a, type: 3}
+      propertyPath: moveSpeed
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 8329628644548007612, guid: 91810fc2c3e9a8b4f86fd40aa6cdad5a, type: 3}
       propertyPath: m_Name
       value: racketPlayerOne
