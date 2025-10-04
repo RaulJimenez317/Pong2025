@@ -74,8 +74,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 8ea9fe67a4f321d4c9387862ad0ba989, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -115,6 +115,8 @@ MonoBehaviour:
   Speed: 5
   SpeedIncrease: 0.3
   maxSpeed: 14
+  audioSource: {fileID: 0}
+  ballClip: {fileID: 0}
 --- !u!58 &7217640336645555619
 CircleCollider2D:
   m_ObjectHideFlags: 0
