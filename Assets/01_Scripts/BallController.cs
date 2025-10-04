@@ -8,6 +8,7 @@ public class BallController : MonoBehaviour
     //velocidad para el rebote 
     public float SpeedIncrease = 0.3f;
     public float maxSpeed = 14f;
+
     private float currentSpeed;
     private Rigidbody2D rb;
     private GameManager gameManager;
@@ -17,16 +18,13 @@ public class BallController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         gameManager = FindObjectOfType<GameManager>();
         LaunchBall();
-
     }
     //pelota en direccion aleatoria
     void LaunchBall()
     {
         currentSpeed = Speed;
-
         int randomValue = Random.Range(0, 2);
-
-        float directionX;  
+        float directionX;
         if (randomValue == 0)
         {
             directionX = -1f;
@@ -37,10 +35,9 @@ public class BallController : MonoBehaviour
         }
         float directionY = Random.Range(-0.5f, 0.5f);
         Vector2 direction = new Vector2(directionX, directionY).normalized;
-
         rb.velocity = direction * currentSpeed;
     }
-    
+
     //detector de colisiones
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -52,17 +49,19 @@ public class BallController : MonoBehaviour
         {
             HandleWallCollision(collision);
         }
+        else if (collision.gameObject.CompareTag("WallLeft") || collision.gameObject.CompareTag("WallRight"))
+        {
+            
+            ResetBall();
+        }
     }
 
     void HandleWallCollision(Collision2D collision)
     {
         // obtenemos la normal de contacto que seria la direccion perpendicular a la pared
         Vector2 normal = collision.contacts[0].normal;
-        
         // reflejamos la velocidad actual usando la normal de la pared
         Vector2 reflectedVelocity = Vector2.Reflect(rb.velocity.normalized, normal);
-        
-    
         rb.velocity = reflectedVelocity * currentSpeed;
     }
 
@@ -71,15 +70,12 @@ public class BallController : MonoBehaviour
     {
         //iremos subiendo la velocidad sin superar el max
         currentSpeed = Mathf.Min(currentSpeed + SpeedIncrease, maxSpeed);
-
         float paddleHeight = collision.collider.bounds.size.y;
         float hitPosition = (transform.position.y - collision.transform.position.y) / paddleHeight;
-
         hitPosition = Mathf.Clamp(hitPosition, -1f, 1f);
 
         //calculamos el angulo de rebote
         float bounceAngle = hitPosition * 60f;
-
         Vector2 direction = Quaternion.Euler(0, 0, bounceAngle) * Vector2.right;
 
         //si entra en la direccion correcta 
@@ -96,8 +92,8 @@ public class BallController : MonoBehaviour
     }
 
     //detector de la pelota entra en cualquiera de las zonas 
-     void OnTriggerEnter2D(Collider2D collision)
-     {
+    void OnTriggerEnter2D(Collider2D collision)
+    {
         if (collision.CompareTag("LetfPoint"))
         {
             if (gameManager != null)
@@ -113,23 +109,19 @@ public class BallController : MonoBehaviour
                 gameManager.ScoreLeft();
             }
             ResetBall();
-
         }
-     }
+    }
 
     //reiniamos la pelota 
     void ResetBall()
     {
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
-
         transform.position = Vector2.zero;
-
         Invoke("LaunchBall", 1f);
     }
 
     //metodo para reiniciar la pelota desde otros scritps 
-
     public void Reset()
     {
         CancelInvoke();
