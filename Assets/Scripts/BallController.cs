@@ -40,6 +40,7 @@ public class BallController : MonoBehaviour
 
         rb.velocity = direction * currentSpeed;
     }
+    
     //detector de colisiones
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -47,12 +48,22 @@ public class BallController : MonoBehaviour
         {
             HandlePaddleCollision(collision);
         }
-
-        //si chocamos con la pared la velocidad se mantiene
-        if (collision.gameObject.CompareTag("Wall"))
+        else if (collision.gameObject.CompareTag("Wall"))
         {
-            rb.velocity = rb.velocity.normalized * currentSpeed;
+            HandleWallCollision(collision);
         }
+    }
+
+    void HandleWallCollision(Collision2D collision)
+    {
+        // obtenemos la normal de contacto que seria la direccion perpendicular a la pared
+        Vector2 normal = collision.contacts[0].normal;
+        
+        // reflejamos la velocidad actual usando la normal de la pared
+        Vector2 reflectedVelocity = Vector2.Reflect(rb.velocity.normalized, normal);
+        
+    
+        rb.velocity = reflectedVelocity * currentSpeed;
     }
 
     //logica para mis jugadores u raquetas
