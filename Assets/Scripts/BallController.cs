@@ -16,6 +16,7 @@ public class BallController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         gameManager = FindObjectOfType<GameManager>();
+        LaunchBall();
 
     }
     //pelota en direccion aleatoria
@@ -57,6 +58,7 @@ public class BallController : MonoBehaviour
     //logica para mis jugadores u raquetas
     void HandlePaddleCollision(Collision2D collision)
     {
+        //iremos subiendo la velocidad sin superar el max
         currentSpeed = Mathf.Min(currentSpeed + SpeedIncrease, maxSpeed);
 
         float paddleHeight = collision.collider.bounds.size.y;
@@ -69,8 +71,10 @@ public class BallController : MonoBehaviour
 
         Vector2 direction = Quaternion.Euler(0, 0, bounceAngle) * Vector2.right;
 
+        //si entra en la direccion correcta 
         if (collision.transform.position.x < transform.position.x)
         {
+            //golpeo el lado izquierdo y debe ir a la derecha
             direction.x = Mathf.Abs(direction.x);
         }
         else
@@ -78,5 +82,54 @@ public class BallController : MonoBehaviour
             direction.x = -Mathf.Abs(direction.x);
         }
         rb.velocity = direction.normalized * currentSpeed;
+    }
+
+    //detector de la pelota entra en cualquiera de las zonas 
+     void OnTriggerEnter2D(Collider2D collision)
+     {
+        if (collision.CompareTag("LetfPoint"))
+        {
+            if (gameManager != null)
+            {
+                gameManager.ScoreRight();
+            }
+            ResetBall();
+        }
+        else if (collision.CompareTag("RightPoint"))
+        {
+            if (gameManager != null)
+            {
+                gameManager.ScoreLeft();
+            }
+            ResetBall();
+
+        }
+     }
+
+    //reiniamos la pelota 
+    void ResetBall()
+    {
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
+        transform.position = Vector2.zero;
+
+        Invoke("LaunchBall", 1f);
+    }
+
+    //metodo para reiniciar la pelota desde otros scritps 
+
+    public void Reset()
+    {
+        CancelInvoke();
+        ResetBall();
+    }
+
+    //por si se necesita lanzar la pelota de inmediato
+
+    public void ForceLaunch()
+    {
+        CancelInvoke();
+        LaunchBall();
     }
 }
