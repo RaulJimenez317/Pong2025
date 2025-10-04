@@ -104,23 +104,22 @@ public class BallController : MonoBehaviour
     //detector de la pelota entra en cualquiera de las zonas 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("LetfPoint"))
+        ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
+
+        if (collision.CompareTag("LeftPoint"))
         {
-            if (gameManager != null)
-            {
-                gameManager.ScoreRight();
-            }
+            if (gameManager != null) gameManager.ScoreRight(); // puntuación existente
+            if (scoreManager != null) scoreManager.AddPointRight(); // suma en tu UI y HighScore
             ResetBall();
         }
         else if (collision.CompareTag("RightPoint"))
         {
-            if (gameManager != null)
-            {
-                gameManager.ScoreLeft();
-            }
+            if (gameManager != null) gameManager.ScoreLeft(); // puntuación existente
+            if (scoreManager != null) scoreManager.AddPointLeft(); // suma en tu UI y HighScore
             ResetBall();
         }
     }
+
 
     //reiniamos la pelota 
     void ResetBall()
