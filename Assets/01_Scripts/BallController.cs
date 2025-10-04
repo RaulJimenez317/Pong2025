@@ -12,6 +12,10 @@ public class BallController : MonoBehaviour
     private Rigidbody2D rb;
     private GameManager gameManager;
 
+    //sonidos
+    public AudioSource audioSource;
+    public AudioClip ballClip;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -93,6 +97,12 @@ public class BallController : MonoBehaviour
             direction.x = -Mathf.Abs(direction.x);
         }
         rb.velocity = direction.normalized * currentSpeed;
+
+        //Reproducir sonido del rebote contra jugador
+        if (audioSource != null && ballClip != null)
+        {
+            audioSource.PlayOneShot(ballClip);
+        }
     }
 
     //detector de la pelota entra en cualquiera de las zonas 
