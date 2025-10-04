@@ -19,9 +19,14 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("SampleScene"); // Cambia "GameScene" por el nombre de la escena del juego
     }
 
-    public void QuitGame()
+    public void QuitGame() // Cierra en el editor de unity
     {
         Debug.Log("Saliendo del juego...");
-        Application.Quit();
+
+#if UNITY_EDITOR
+    UnityEditor.EditorApplication.isPlaying = false; // Cierra el juego en el editor de unity
+#else
+        Application.Quit(); // y este cierra el juego compilado
+#endif
     }
 }

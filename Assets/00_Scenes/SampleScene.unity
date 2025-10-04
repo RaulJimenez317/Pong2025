@@ -902,6 +902,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2586690553228088687, guid: 50b3ec65b19c84f4ca6af8d7151355d1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2586690553228088688, guid: 50b3ec65b19c84f4ca6af8d7151355d1, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -963,6 +967,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8132549607571583840, guid: 17ec8998a30415a40802606a23b40704, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8132549607571583845, guid: 17ec8998a30415a40802606a23b40704, type: 3}
       propertyPath: m_Name
       value: WallLeft

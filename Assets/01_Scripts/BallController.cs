@@ -106,19 +106,20 @@ public class BallController : MonoBehaviour
     {
         ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
 
-        if (collision.CompareTag("LeftPoint"))
+        if (collision.CompareTag("WallLeft")) 
         {
-            if (gameManager != null) gameManager.ScoreRight(); // puntuación existente
-            if (scoreManager != null) scoreManager.AddPointRight(); // suma en tu UI y HighScore
+            gameManager?.ScoreRight();
+            scoreManager?.AddPointRight();
             ResetBall();
         }
-        else if (collision.CompareTag("RightPoint"))
+        else if (collision.CompareTag("WallRight")) 
         {
-            if (gameManager != null) gameManager.ScoreLeft(); // puntuación existente
-            if (scoreManager != null) scoreManager.AddPointLeft(); // suma en tu UI y HighScore
+            gameManager?.ScoreLeft();
+            scoreManager?.AddPointLeft();
             ResetBall();
         }
     }
+
 
 
     //reiniamos la pelota 
