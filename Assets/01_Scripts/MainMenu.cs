@@ -1,22 +1,33 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI highScoreText;
+    //Para activar la animacion a la sig escena
+    [SerializeField]  Animator transitionAnim;
 
     void Start()
     {
-        // Mostrar la puntuación más alta guardada
+        // Mostrar la puntuaciï¿½n mï¿½s alta guardada
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
         if (highScoreText != null)
             highScoreText.text = "High Score: " + highScore.ToString();
     }
+    IEnumerator ChangeToSceneGame()
+    {
+        transitionAnim.SetTrigger("exit");
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("SampleScene");
+
+    }
 
     public void StartGame()
     {
-        SceneManager.LoadScene("SampleScene"); // Cambia "GameScene" por el nombre de la escena del juego
+        StartCoroutine(ChangeToSceneGame());
+         // Cambia "GameScene" por el nombre de la escena del juego
     }
 
     public void QuitGame() // Cierra en el editor de unity
@@ -29,4 +40,7 @@ public class MainMenu : MonoBehaviour
         Application.Quit(); // y este cierra el juego compilado
 #endif
     }
+
+  
 }
+
